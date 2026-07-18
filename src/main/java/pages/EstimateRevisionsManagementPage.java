@@ -1,18 +1,16 @@
 package pages;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import common.BasePage;
+import common.WaitUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import common.BasePage;
-import common.WaitUtils;
 import utilities.CommonUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class EstimateRevisionsManagementPage extends BasePage {
 
@@ -81,6 +79,7 @@ public class EstimateRevisionsManagementPage extends BasePage {
 	public static final By applyButton = By.xpath("//div[@aria-label='Apply']");
 	public static final By container = By.xpath("(//div[@class='dx-scrollable-wrapper']//div[@role='treegrid'])[1]");
 	public CommonUtils commonUtils = new CommonUtils(driver);
+
 
 
 	public void estimaterevisions() throws InterruptedException {
@@ -311,4 +310,5 @@ public class EstimateRevisionsManagementPage extends BasePage {
 	public void CreateRevision() {
 		// TODO Auto-generated method stub
 	}
+
 }

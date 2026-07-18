@@ -1,17 +1,15 @@
 package pages;
 
-import java.util.List;
-
+import common.BasePage;
+import common.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import common.BasePage;
-import common.WaitUtils;
+import java.util.List;
 
-public class
-RestrictAccessToRevisionsPage extends BasePage {
+public class RestrictAccessToRevisionsPage extends BasePage {
 	
 	
 	public RestrictAccessToRevisionsPage(WebDriver driver) {
