@@ -5,8 +5,13 @@ Feature: PSL created from Estimate Revisions Management page using existing from
     When Enter username "<username>" and password "<Password>"
     And Click on the login button
     Then Logged in based on "<expectedstatus>"
-    #Then User navigates to Estimate Revisions Management Page
+    Then User navigates to Estimate Revisions Management Page
     Then User navigate to Project Specific Library section
+    Then User clicks on use existing from another baseline
+    Then User selects estimate from the popup
+    Then User clicks on save
+    Then User views Project Specific Library
+    Then User verifies PSL code matches with baseline estimate
 
     Examples:
       | username       | Password | expectedstatus |
