@@ -2,19 +2,16 @@ package pages;
 
 import common.BasePage;
 import common.WaitUtils;
-import java.util.ArrayList;
-import java.util.List;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.junit.Assert; // Import Assert for assertions
 
 public class PSLManagementPage extends BasePage {
 
     public PSLManagementPage(WebDriver driver) {
-
         super(driver);
     }
 
@@ -25,14 +22,13 @@ public class PSLManagementPage extends BasePage {
     public static final By SEARCH = By.xpath("//input[@placeholder='Search']");
     public static final By MANAGE_REVISIONS = By.xpath("//span[normalize-space()='Manage Revisions']");
     public static final By LOADING_OVERLAY = By.xpath("//div[contains(@class, 'dx-loadpanel-content')]");
-    public static final By SECTION_MENU = By.xpath("//div[@id='section-context-menu-button']");
-    public static final By USE_EXISTING_OPTION = By.xpath("//span[contains(@class,'dx-menu-item-text') and contains(.,'Use existing')]");
-    public static final By VIEW_PSL_OPTION = By.xpath("//span[contains(@class,'dx-menu-item-text') and normalize-space()='View Project-Specific Library']");
-    public static final By DELETE_PSL_OPTION = By.xpath("//span[contains(@class,'dx-menu-item-text') and normalize-space()='Delete Project Specific Library']");
+    public static final By PSL_SECTION_TAB = By.xpath("//div[@role='menuitem']//span[normalize-space()='Project-Specific Library']");
+    public static final By USE_EXISTING_OPTION = By.xpath("//span[@class='dx-menu-item-text'][normalize-space()='Use existing from another baseline']");
+    public static final By VIEW_PSL_OPTION = By.xpath("//span[@class='dx-menu-item-text'][normalize-space()='View Project-Specific Library']");
+    public static final By DELETE_PSL_OPTION = By.xpath("//span[@class='dx-menu-item-text'][normalize-space()='Delete Project-Specific Library']");
     public static final By POPUP_ESTIMATE_ROW = By.xpath("//div[contains(@class,'dx-overlay-content')]//tr[contains(@class,'dx-data-row')][.//*[normalize-space()='101899.15']]");
     public static final By SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save' and not(@title='Save Layout')]");
-    public static final By PSL_SECTION_TAB = By.xpath("//span[contains(normalize-space(),'Project-Specific Library')]");
-    public static final By ERROR_MESSAGE_TOAST = By.xpath("//div[contains(@class, 'dx-toast-message')]"); // Common locator for toast messages
+    public static final By ERROR_MESSAGE_TOAST = By.xpath("//div[contains(@class, 'dx-toast-message')]");
 
     public void waitForLoadingToFinish() {
         try {
@@ -52,20 +48,13 @@ public class PSLManagementPage extends BasePage {
             System.out.println("Clicked on Estimates");
             waitForLoadingToFinish();
             Thread.sleep(3000);
-            // Retry once if the grid didn't load after the first click
-            if (driver.findElements(SEARCH).isEmpty()) {
-                System.out.println("Estimates grid not loaded - clicking Estimates again");
-                click(ESTIMATES);
-                waitForLoadingToFinish();
-                Thread.sleep(3000);
-            }
             waits.waitForClickable(SEARCH);
             click(SEARCH);
-            find(SEARCH).sendKeys("101854.01");
+            find(SEARCH).sendKeys("101855.01");
             System.out.println("Entered estimates");
             Thread.sleep(3000);
             WebElement PROJECTNO = driver.findElement(By.xpath(
-                    "//tr[contains(@class,'dx-data-row')]//td[@aria-colindex='3' and not(contains(@class,'dx-hidden-cell'))]//span[text()='101854.01']"));
+                    "//tr[contains(@class,'dx-data-row')]//td[@aria-colindex='3' and not(contains(@class,'dx-hidden-cell'))]//span[text()='101855.01']"));
             waits.waitForVisible(PROJECTNO);
             Actions actions = new Actions(driver);
             actions.contextClick(PROJECTNO).perform();
@@ -74,23 +63,26 @@ public class PSLManagementPage extends BasePage {
             click(MANAGE_REVISIONS);
             System.out.println("Clicked on Manage Revisions");
             waitForLoadingToFinish();
-            waits.waitForClickable(SECTION_MENU);
-            click(SECTION_MENU);
-
 
         } catch (Exception e) {
             System.err.println(e.getLocalizedMessage());
         }
     }
 
+    public void navigateToPSLSection() throws InterruptedException {
+        waits.waitForClickable(PSL_SECTION_TAB);
+        click(PSL_SECTION_TAB);
+        System.out.println("Clicked on Project-Specific Library dropdown");
+        Thread.sleep(1000);
+    }
+
     public void selectUseExistingOption() throws InterruptedException {
-        waitForLoadingToFinish();
-        System.out.println("URL = " + driver.getCurrentUrl());
-        System.out.println("Title = " + driver.getTitle());
-        System.out.println("Menu Count = " + driver.findElements(USE_EXISTING_OPTION).size());
         waits.waitForVisible(USE_EXISTING_OPTION);
         click(USE_EXISTING_OPTION);
+        System.out.println("Clicked on Use existing from another baseline");
+        waitForLoadingToFinish();
     }
+
     public void selectEstimateFromPopup() throws InterruptedException {
         Thread.sleep(3000);
         waits.waitForVisible(POPUP_ESTIMATE_ROW);
@@ -111,38 +103,34 @@ public class PSLManagementPage extends BasePage {
         waits.waitForClickable(PSL_SECTION_TAB);
         click(PSL_SECTION_TAB);
         System.out.println("Clicked on Project-Specific Library dropdown again");
-        Thread.sleep(2000);
-        System.out.println("View PSL Count = " + driver.findElements(VIEW_PSL_OPTION).size());
         waits.waitForVisible(VIEW_PSL_OPTION);
         click(VIEW_PSL_OPTION);
-    }
-
-    public void navigateToPSLSection() throws InterruptedException {
+        System.out.println("Clicked on View Project-Specific Library");
         waitForLoadingToFinish();
-        System.out.println("URL = " + driver.getCurrentUrl());
-        System.out.println("Title = " +driver.getTitle());
-        System.out.println("Count = " + driver.findElements(PSL_SECTION_TAB).size());
-        waits.waitForClickable(PSL_SECTION_TAB);
-        click(PSL_SECTION_TAB);
-        System.out.println("Clicked on Project-Specific Library dropdown");
-        Thread.sleep(1000);
+        Thread.sleep(3000);
     }
 
-    // New methods for deletion scenario
+    public void navigateBackToEstimateRevisions() throws InterruptedException {
+        driver.navigate().back();
+        System.out.println("Navigated back to Estimate Revisions Management page");
+        waitForLoadingToFinish();
+        Thread.sleep(3000);
+    }
+
     public void clickDeleteProjectSpecificLibraryOption() throws InterruptedException {
-        waits.waitForClickable(DELETE_PSL_OPTION);
+        waits.waitForVisible(DELETE_PSL_OPTION);
         click(DELETE_PSL_OPTION);
-        System.out.println("Clicked on Delete Project Specific Library option");
+        System.out.println("Clicked on Delete Project-Specific Library");
         waitForLoadingToFinish();
         Thread.sleep(1000);
     }
 
     public void verifyErrorMessage(String expectedErrorMessage) throws InterruptedException {
         waits.waitForVisible(ERROR_MESSAGE_TOAST);
-        WebElement errorMessageElement = find(ERROR_MESSAGE_TOAST);
-        String actualErrorMessage = errorMessageElement.getText().trim();
+        String actualErrorMessage = find(ERROR_MESSAGE_TOAST).getText().trim();
+        System.out.println("Error message displayed: " + actualErrorMessage);
         Assert.assertEquals("Error message mismatch", expectedErrorMessage, actualErrorMessage);
-        System.out.println("Verified error message: " + actualErrorMessage);
+        System.out.println("Verified error message");
         Thread.sleep(1000);
     }
 }

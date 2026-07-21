@@ -1,8 +1,6 @@
 package stepdefinitions;
 
 import hooks.Hooks;
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import utilities.TestContext;
 
@@ -40,8 +38,13 @@ public class PSLSteps {
         context.getPageManager().getPSLManagementPage().viewProjectSpecificLibrary();
     }
 
-    @Then("navigate back to Project Specific Library section")
-    public void navigateBackToProjectSpecificLibrarySection()  throws InterruptedException {
+    @Then("navigate back to Estimate Revisions Management")
+    public void navigate_back_to_estimate_revisions_management() throws InterruptedException {
+        context.getPageManager().getPSLManagementPage().navigateBackToEstimateRevisions();
+    }
+
+    @Then("click on Project Specific Library dropdown")
+    public void click_on_psl_dropdown() throws InterruptedException {
         context.getPageManager().getPSLManagementPage().navigateToPSLSection();
     }
 
