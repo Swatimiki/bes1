@@ -6,6 +6,7 @@ import pages.EstimateRevisionsManagementPage;
 import pages.LoginPage;
 import pages.PSLCreatedfromONCOSTPage;
 import pages.RestrictAccessToRevisionsPage;
+import pages.PSLManagementPage;
 
 public class PageManager {
 
@@ -14,6 +15,7 @@ public class PageManager {
 	private EstimateRevisionsManagementPage estimatePage;
 	private CommonUtils commonUtils;
 	private PSLCreatedfromONCOSTPage psloncostPage;
+	private PSLManagementPage pslManagementPage;
 	private RestrictAccessToRevisionsPage AccessToRevisionsPage;
 
 	public PageManager(WebDriver driver) {
@@ -43,11 +45,16 @@ public class PageManager {
 			psloncostPage = new PSLCreatedfromONCOSTPage(driver);
 		return psloncostPage;
 	}
-	
+
 	public RestrictAccessToRevisionsPage getRestrictAccessToRevisionsPage() {
 		if (AccessToRevisionsPage == null)
 			AccessToRevisionsPage = new RestrictAccessToRevisionsPage(driver);
 		return AccessToRevisionsPage;
 	}
 
+	public PSLManagementPage getPSLManagementPage() {
+		if (pslManagementPage == null)
+			pslManagementPage = new PSLManagementPage(driver);
+		return pslManagementPage;
+	}
 }
