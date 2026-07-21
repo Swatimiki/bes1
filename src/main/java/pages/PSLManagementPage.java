@@ -29,6 +29,8 @@ public class PSLManagementPage extends BasePage {
     public static final By VIEW_PSL_OPTION = By.xpath("//div[contains(@class,'dx-menu-item')]//span[@class='dx-menu-item-text'][normalize-space()='View Project-Specific Library']");
     public static final By POPUP_ESTIMATE_ROW = By.xpath("//div[contains(@class,'dx-overlay-content')]//tr[contains(@class,'dx-data-row')][.//*[normalize-space()='101899.15']]");
     public static final By SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save' and not(@title='Save Layout')]");
+    public static final By DELETE_PSL_OPTION = By.xpath("//div[contains(@class,'dx-menu-item')]//span[@class='dx-menu-item-text'][normalize-space()='Delete Project-Specific Library']");
+    public static final By TOAST_MESSAGE = By.xpath("//div[contains(@class,'dx-toast-message')] | //div[contains(@class,'dx-toast-content')]");
     public static final By PSL_SECTION_TAB = By.xpath("//div[@role='menuitem']//span[normalize-space()='Project-Specific Library']");
 
     public void waitForLoadingToFinish() {
@@ -170,5 +172,37 @@ public class PSLManagementPage extends BasePage {
         click(PSL_SECTION_TAB);
         System.out.println("Clicked on Project-Specific Library dropdown");
         Thread.sleep(1000);
+    }
+
+    public void clickDeletePSLOption() throws InterruptedException {
+        waits.waitForVisible(DELETE_PSL_OPTION);
+        click(DELETE_PSL_OPTION);
+        System.out.println("Clicked on Delete Project-Specific Library");
+        Thread.sleep(2000);
+    }
+
+    public void verifyErrorMessage(String expectedMessage) throws InterruptedException {
+
+        String actual = "";
+        // Toast may take a few seconds to appear
+        for (int i = 0; i < 15 && actual.isEmpty(); i++) {
+            for (WebElement toast : driver.findElements(TOAST_MESSAGE)) {
+                if (toast.isDisplayed() && !toast.getText().trim().isEmpty()) {
+                    actual = toast.getText().trim();
+                    break;
+                }
+            }
+            if (actual.isEmpty())
+                Thread.sleep(1000);
+        }
+
+        if (actual.isEmpty())
+            throw new AssertionError("No error message appeared. Expected: '" + expectedMessage + "'");
+
+        System.out.println("Error message displayed: " + actual);
+        if (!actual.contains(expectedMessage))
+            throw new AssertionError(
+                    "Expected error message: '" + expectedMessage + "' but got: '" + actual + "'");
+        System.out.println("Error message matches expected text");
     }
 }

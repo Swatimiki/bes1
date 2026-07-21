@@ -11,7 +11,9 @@ Feature: PSL created from Estimate Revisions Management page using existing from
     Then User selects estimate from the popup
     Then User clicks on save
     Then User views Project Specific Library
-    Then User verifies PSL code matches with baseline estimate
+    Then navigate back to Project Specific Library Sectionss
+    Then click on Delete Project Specific Library option
+    Then User should get error message "The Shared Project Specific Library can't be deleted as it is applied to baselines"
 
     Examples:
       | username       | Password | expectedstatus |

@@ -38,9 +38,4 @@ public class PSLSteps {
         context.getPageManager().getPSLManagementPage().viewProjectSpecificLibrary();
     }
 
-    @Then("User verifies PSL code matches with baseline estimate")
-    public void user_verifies_psl_code_matches() throws InterruptedException {
-        context.getPageManager().getPSLManagementPage().comparePSLCodes();
-    }
-
 }
