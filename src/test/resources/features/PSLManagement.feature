@@ -14,7 +14,7 @@ Feature: PSL created from Estimate Revisions Management page using existing from
     Then navigate back to Estimate Revisions Management
     And click on Project Specific Library dropdown
     Then click on Delete Project Specific Library option
-    Then User should get error message "The Shared Project Specific Library can't be deleted as it is already applied to baseline"
+    Then User should get error message "This shared Project-Specific Library cannot be deleted as it is already applied to a baseline."
 
     Examples:
       | username       | Password | expectedstatus |
