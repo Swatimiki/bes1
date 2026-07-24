@@ -63,14 +63,11 @@ public class EstimateRevisionsManagementPage extends BasePage {
 	public static final By fileUpload = By.xpath("//input[@type='file']");
 	public static final By EPDCode = By.xpath("//span[contains(text(),'EPD Code')]/preceding::input[1]");
 	public static final By EPDDescription = By.xpath("//span[contains(text(),'EPD Description')]/preceding::input[1]");
-	public static final By issueDate = By
-			.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]/following::div[@role='button'][1]");
+	public static final By issueDate = By.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]/following::div[@role='button'][1]");
 	public static final By issueDateValue = By.xpath("//td[@data-value='2026/06/20']");
-	public static final By expiryDate = By
-			.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
+	public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
 	public static final By expiryDateValue = By.xpath("//td[@data-value='2026/06/30']");
-	public static final By expandRadio = By.xpath(
-			"(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
+	public static final By expandRadio = By.xpath("(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
 	public static final By a1A3Factor = By.xpath("//input[@id='projectResourceCarbA1A3Factor']");
 	public static final By a4Factor = By.xpath("//input[@id='projectResourceCarbA4Factor']");
 	public static final By a5_1Factor = By.xpath("//input[@id='projectResourceCarbA5_1_Factor']");

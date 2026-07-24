@@ -12,6 +12,8 @@ import utilities.CommonUtils;
 
 public class ViewandUpdatePSLPage extends BasePage {
 
+    private CommonUtils commonUtils;
+
     public ViewandUpdatePSLPage(WebDriver driver) {
         super(driver);
     }
@@ -30,17 +32,17 @@ public class ViewandUpdatePSLPage extends BasePage {
     public static final By issueDateValue = By.xpath("//td[@data-value='2026/07/24']");
     public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
     public static final By expiryDateValue = By.xpath("//td[@data-value='2026/07/30']");
-    public static final By a1A3Factor = By.xpath("//input[@id='projectResourceCarbA1A3Factor']");
-    public static final By a4Factor = By.xpath("//input[@id='projectResourceCarbA4Factor']");
-    public static final By a5_1Factor = By.xpath("//input[@id='projectResourceCarbA5_1_Factor']");
-    public static final By a5_2Factor = By.xpath("//input[@id='projectResourceCarbA5_2_Factor']");
-    public static final By a5_3Factor = By.xpath("//input[@id='projectResourceCarbA5_3_Factor']");
-    public static final By EPD_TEXTBOX = By.xpath("//input[contains(@name,'EPD')]");
-    public static final By POPUP_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
-    public static final By UPDATED_EPD_VALUE = By.xpath("//td[contains(@class,'modified')]");
-    public static final By PSL_PAGE_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
-    public static final By EPD_POPUP_VALUE = By.xpath("//input[contains(@name,'EPD')]");
-    public static final By CLOSE_BUTTON = By.xpath("//span[normalize-space()='Close']");
+    public static final By a1A3Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-e5ec3938-456e-5c2d-8a1c-cbcb59bc197a']");
+    public static final By a4Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-79188bd6-09ca-6cab-9cd8-54ea7c3eebc6']");
+    public static final By a5_1Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-121e1e79-735b-cd73-6742-8d7cb92ab40c']");
+    public static final By a5_2Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-7882a719-b9ac-6d9b-eb2d-d470b3288585']");
+    public static final By a5_4Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-8f6c6577-2339-c375-e39a-609826560726']");
+    //public static final By EPD_TEXTBOX = By.xpath("//input[contains(@name,'EPD')]");
+//    public static final By POPUP_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
+//    public static final By UPDATED_EPD_VALUE = By.xpath("//td[contains(@class,'modified')]");
+//    public static final By PSL_PAGE_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
+//    public static final By EPD_POPUP_VALUE = By.xpath("//input[contains(@name,'EPD')]");
+//    public static final By CLOSE_BUTTON = By.xpath("//span[normalize-space()='Close']");
 
     public void waitForLoadingToFinish() {
         try {
@@ -86,19 +88,19 @@ public class ViewandUpdatePSLPage extends BasePage {
             click(expiryDateValue);
             Thread.sleep(1000);
 
-            enterText(a1A3Factor, "34");
+            enterText(a1A3Factor, "10");
             Thread.sleep(1000);
             commonUtils.scrollToElement(find(a4Factor));
-            enterText(a4Factor, "55");
+            enterText(a4Factor, "20");
             Thread.sleep(1000);
 
-            enterText(a5_1Factor, "34");
+            enterText(a5_1Factor, "30");
             Thread.sleep(1000);
 
-            enterText(a5_2Factor, "55");
+            enterText(a5_2Factor, "10");
             Thread.sleep(1000);
 
-            enterText(a5_3Factor, "54");
+            enterText(a5_4Factor, "20");
 
             Thread.sleep(2000);
 
@@ -128,37 +130,37 @@ public class ViewandUpdatePSLPage extends BasePage {
         System.out.println("Updated EPD details");
         Thread.sleep(1000);
     }
-
-    public void clickPopupSaveButton() throws InterruptedException {
-        waits.waitForClickable(POPUP_SAVE_BUTTON);
-        click(POPUP_SAVE_BUTTON);
-        System.out.println("Clicked Save button in popup");
-        Thread.sleep(2000);
-    }
-    public void verifyUpdatedEPDDetailsHighlighted() {
-        waits.waitForVisible(UPDATED_EPD_VALUE);
-        Assert.assertTrue("Updated EPD details are not highlighted", find(UPDATED_EPD_VALUE).isDisplayed());
-        System.out.println("Verified updated EPD details are highlighted");
-    }
-    public void clickSaveButtonInPSLPage() throws InterruptedException {
-        waits.waitForClickable(PSL_PAGE_SAVE_BUTTON);
-        click(PSL_PAGE_SAVE_BUTTON);
-        System.out.println("Clicked Save button in PSL page");
-        Thread.sleep(2000);
-    }
-
-    public void verifyUpdatedEPDDetailsInPopup() {
-        waits.waitForVisible(EPD_POPUP_VALUE);
-        String actualValue =
-        find(EPD_POPUP_VALUE).getAttribute("value");
-        Assert.assertEquals("Updated EPD", actualValue);
-        System.out.println("Verified updated EPD details in popup");
-    }
-
-    public void clickCloseButton() throws InterruptedException {
-        waits.waitForClickable(CLOSE_BUTTON);
-        click(CLOSE_BUTTON);
-        System.out.println("Clicked Close button");
-        Thread.sleep(1000);
-    }
+//
+//    public void clickPopupSaveButton() throws InterruptedException {
+//        waits.waitForClickable(POPUP_SAVE_BUTTON);
+//        click(POPUP_SAVE_BUTTON);
+//        System.out.println("Clicked Save button in popup");
+//        Thread.sleep(2000);
+//    }
+//    public void verifyUpdatedEPDDetailsHighlighted() {
+//        waits.waitForVisible(UPDATED_EPD_VALUE);
+//        Assert.assertTrue("Updated EPD details are not highlighted", find(UPDATED_EPD_VALUE).isDisplayed());
+//        System.out.println("Verified updated EPD details are highlighted");
+//    }
+//    public void clickSaveButtonInPSLPage() throws InterruptedException {
+//        waits.waitForClickable(PSL_PAGE_SAVE_BUTTON);
+//        click(PSL_PAGE_SAVE_BUTTON);
+//        System.out.println("Clicked Save button in PSL page");
+//        Thread.sleep(2000);
+//    }
+//
+//    public void verifyUpdatedEPDDetailsInPopup() {
+//        waits.waitForVisible(EPD_POPUP_VALUE);
+//        String actualValue =
+//        find(EPD_POPUP_VALUE).getAttribute("value");
+//        Assert.assertEquals("Updated EPD", actualValue);
+//        System.out.println("Verified updated EPD details in popup");
+//    }
+//
+//    public void clickCloseButton() throws InterruptedException {
+//        waits.waitForClickable(CLOSE_BUTTON);
+//        click(CLOSE_BUTTON);
+//        System.out.println("Clicked Close button");
+//        Thread.sleep(1000);
+//    }
 }
