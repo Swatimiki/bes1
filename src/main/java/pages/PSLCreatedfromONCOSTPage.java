@@ -1,6 +1,9 @@
 package pages;
 
+import java.io.File;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -23,6 +26,21 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 	public static final By ManageRevisions = By.xpath("//span[normalize-space()='Manage Revisions']");
 	public static final By AddRevision = By.xpath("//span[normalize-space()='Add Revision']");
 	public static final By SUBMIT = By.xpath("//span[normalize-space()='Submit']");
+
+	public static final By CHEVRON = By.xpath("//i[@class='fa-solid fa-chevron-up']");
+
+	public static final By NewRevisions = By.xpath("//span[normalize-space()='Estimate Number']");
+
+	//	public static final By NEWREVISION = By
+//			.xpath("//tr[contains(@class,'dx-data-row')]//td[text()='Automation_Project2-CT1']");
+	public static final By allrows = By.xpath("//tr[contains(@class,'dx-data-row')]");
+	public static final By SECTION = By.xpath("//label[@title='Sewerage Non Infrastructure']");
+
+//	public static final By CHEVRON = By.xpath("//td[@title='Meenal - Markup Testing - Carbon UAT']");
+//	public static final By SECTION = By.xpath("//label[@title='Sewerage Non Infrastructure']");
+//	public static final By EXPANDALL = By.xpath("//div[@aria-label='Expand All']/div");
+
+
 	public static final By Collapse = By.xpath("//button[@aria-label='Collapse']");
 	public static final By PSLTAB = By.xpath("//span[normalize-space()='Project-Specific Library']");
 	public static final By ViewPSLoption = By.xpath("//span[normalize-space()='View Project-Specific Library']");
@@ -30,30 +48,39 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 	public static final By ONCOSTS = By.xpath("//span[@title='On Costs']");
 	public static final By ONCOSTSSearch = By.xpath("//input[@aria-label='Search in the tree list']");
 	public static final By HVORESULT = By.xpath("//table[contains(@class,'dx-treelist-table')]//tr[@role='row'][7]");
-	public static final By RADIOBUTTON = By.xpath("//div[@role='radio']//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']");
-	public static final By SELECTFILE = By.xpath("//span[normalize-space()='Select a file']");
-	public static final By EPDCODE = By.xpath("//span[normalize-space()='EPD Code']");
-	public static final By EPDDESCRIPTION = By.xpath("//span[normalize-space()='EPD Description']");
-	public static final By IssueDate = By.xpath("//span[normalize-space()='Issue Date']");
-	public static final By ExpiryDate = By.xpath("//span[normalize-space()='Expiry Date']");
+
+	public static final By EDITBUTN = By.xpath(("(//*[@id='gridContainer']//span[@title='Edit']/button)[2]"));
+	public static final By Scrollverical = By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scrollbar') and contains(@class,'dx-scrollbar-vertical')]");
+
+	public static final By PAS2080 = By.xpath("//div[@role='radio']//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']");
+	public static final By RADIOBUTTON = By.xpath("(//div[@class='dx-radiobutton-icon-dot'])[1]");
+	public static final By SELECTFILE = By.xpath("//span[contains(text(),'Select a file')]");
+	public static final By fileUpload = By.xpath("//input[@type='file");
+	public static final By EPDCODE = By.xpath("//span[contains(text(),'EPD Code')]/preceding::input[1]");
+	public static final By EPDDESCRIPTION = By.xpath("//span[contains(text(),'EPD Description')]/preceding::input[1]");
+
+	public static final By IssueDate = By.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]/following::div[@role='button'][1]");
 	public static final By issueDateValue = By.xpath("//td[@data-value='2026/06/20']");
-	public static final By expiryDate = By
-			.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
-	public static final By expiryDateValue = By.xpath("//td[@data-value='2026/06/27']");
-	public static final By expandRadio = By.xpath(
-			"(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
-	public static final By a1A3Factor = By.xpath("//input[@id='projectResourceCarbA1A3Factor']");
-	public static final By a4Factor = By.xpath("//input[@id='projectResourceCarbA4Factor']");
-	public static final By a5_1Factor = By.xpath("//input[@id='projectResourceCarbA5_1_Factor']");
-	public static final By a5_2Factor = By.xpath("//input[@id='projectResourceCarbA5_2_Factor']");
-	public static final By a5_3Factor = By.xpath("//input[@id='projectResourceCarbA5_3_Factor']");
+
+	//	public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
+
+	public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
+	public static final By expiryDateValue = By.xpath("//td[@data-value='2026/06/30']");
+
+	//public static final By expandRadio = By.xpath("(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
+	public static final By a1A3Factor = By.xpath("//input[@id='carbA1A3Factor']");
+	public static final By a4Factor = By.xpath("//input[@id='carbA4Factor']");
+	public static final By a5_1Factor = By.xpath("//input[@id='carbA51Factor']");
+	public static final By a5_2Factor = By.xpath("//input[@id='carbA52Factor']");
+	public static final By a5_3Factor = By.xpath("//div[@class='a53toggleContainer']/div[contains(@class,'dx-state-disabled')]");
+	public static final By a5_4Factor = By.xpath("//input[@id='carbA54Factor']");
 	public static final By applyButton = By.xpath("//div[@aria-label='Apply']");
 	public static final By container = By.xpath("(//div[@class='dx-scrollable-wrapper']//div[@role='treegrid'])[1]");
 	public CommonUtils commonUtils = new CommonUtils(driver);
-	
-	
-	
-	
+
+
+
+
 
 	public void psloncost() throws InterruptedException {
 
@@ -79,35 +106,71 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 			click(ManageRevisions);
 			click(AddRevision);
 			click(SUBMIT);
-			click(Collapse);
+
+			click(CHEVRON);
+			Thread.sleep(2000);
+
+			selectProject();
+//			Thread.sleep(2000);
+//			click(description);
+//			Thread.sleep(4000);
+//
+			//		click(Collapse);
 			waits.waitForVisible(THREEDOTS);
 			click(THREEDOTS);
 			waits.waitForVisible(ONCOSTS);
 			click(ONCOSTS);
 			Thread.sleep(5000);
 			click(ONCOSTSSearch);
+			Thread.sleep(5000);
 			find(ONCOSTSSearch).sendKeys("HVO");
 			click(HVORESULT);
+			click(EDITBUTN);
+
+
+
+//			commonUtils.scrollToElement(driver.findElement(By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scroll-content')]")));
+//			commonUtils.scrollToMiddle();
+
 			click(RADIOBUTTON);
-			click(SELECTFILE);
-			
-			WebElement upload = driver.findElement(By.xpath("//span[normalize-space()='Select a file']"));
-			upload.sendKeys("C:\\Users\\vuswaroo\\Downloads\\BES.pdf");
-			
+			click(PAS2080);
+
+
+
+//            SelectScroll();
+//
+//			click(Scrollverical);
+
+//			click(SELECTFILE);
+//
+//			find(fileUpload).sendKeys("C:\\Users\\nkature\\Downloads\\BES.pdf");
+//			driver.findElement(By.xpath("//input[@type='file']")).sendKeys("C:\\Users\\nkature\\Downloads\\Nikita Kature.pdf");
+//		WebElement upload = driver.findElement(By.xpath("///span[contains(text(),'Select a file')]"));
+//			find(fileUpload).sendKeys("C:\\Users\\nkature\\.A\\BES.pdf");
+
+//			File file = new File("C:\\Users\\nkature\\.A\\BES.pdf");
+//			System.out.println(file.exists());
+
 			click(EPDCODE);
+//			EPDCODE.sendKeys("EPD123");
+//			driver.findElement(By.id("EPDCODE")).sendKeys("5");
+//		//	((WebElement) EPDCODE).sendKeys("5");
+			find(EPDCODE).click();
+			enterText(EPDCODE, "3");
 
-			find(EPDCODE).sendKeys("5");
 			click(EPDDESCRIPTION);
+			find(EPDDESCRIPTION).click();
+			enterText(EPDDESCRIPTION,"test");
 
-			find(EPDDESCRIPTION).sendKeys("test");
 			click(IssueDate);
 			click(issueDateValue);
 			Thread.sleep(2000);
-			click(expiryDate);
-			click(expiryDateValue);
-			Thread.sleep(1000);
 
-			click(expandRadio);
+//			click(expiryDate);
+//			click(expiryDateValue);
+			Thread.sleep(2000);
+
+			//	click(expandRadio);
 
 			enterText(a1A3Factor, "34");
 			Thread.sleep(1000);
@@ -123,21 +186,67 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 
 			enterText(a5_3Factor, "54");
 
+
+			enterText(a5_4Factor, "50");
 			Thread.sleep(2000);
 			click(applyButton);
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
+
+
+
 
 		} catch (Exception e) {
 			System.err.println(e.getLocalizedMessage());
+		}
+	}
+
+
+
+
+
+	private void SelectScroll() {
+		// TODO Auto-generated method stub
+//		 Actions actions = new Actions(driver);
+//
+//		 WebElement scrollbar = driver.findElement(
+//		     By.xpath("//div[contains(@class,'dx-scrollbar-vertical')]//div[contains(@class,'dx-scrollable-scroll')]")
+//		 );
+//
+//		 actions.clickAndHold(scrollbar)
+//		        .moveByOffset(0, 150)
+//		        .release()
+//		        .perform();
+		WebElement scrollContainer = driver.findElement(By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scrollbar') and contains(@class,'dx-scrollbar-vertical')]"));
+		scrollContainer.sendKeys(Keys.END);
+	}
+
+
+
+
+
+	void selectProject() {
+		// TODO Auto-generated method stub
+
+		try {
+
+			CommonUtils utils = new CommonUtils(driver);
+			int noOfRows = findElements(allrows).size();
+			int row = utils.getRandomNumber(noOfRows);
+//					String xpath = String.format("(//tr[contains(@class,'dx-data-row')][%d]/td[3])", row);
+			String xpath = "(//tr[contains(@class,'dx-data-row')][1]/td[3])";
+			click(By.xpath(xpath));
+			System.err.println("select project completed");
+
+		} catch (Exception e) {
+			System.err.println("select project not completed");
+			System.err.println(e.getLocalizedMessage());
+
 		}
 	}
 }

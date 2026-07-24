@@ -2,11 +2,7 @@ package utilities;
 
 import org.openqa.selenium.WebDriver;
 
-import pages.EstimateRevisionsManagementPage;
-import pages.LoginPage;
-import pages.PSLCreatedfromONCOSTPage;
-import pages.RestrictAccessToRevisionsPage;
-import pages.PSLManagementPage;
+import pages.*;
 
 public class PageManager {
 
@@ -17,6 +13,7 @@ public class PageManager {
 	private PSLCreatedfromONCOSTPage psloncostPage;
 	private PSLManagementPage pslManagementPage;
 	private RestrictAccessToRevisionsPage AccessToRevisionsPage;
+	private ViewandUpdatePSLPage viewandUpdatePSLPage;
 
 	public PageManager(WebDriver driver) {
 		this.driver = driver;
@@ -57,4 +54,12 @@ public class PageManager {
 			pslManagementPage = new PSLManagementPage(driver);
 		return pslManagementPage;
 	}
+
+	public ViewandUpdatePSLPage getViewandUpdatePSLPage() {
+		if (viewandUpdatePSLPage == null)
+		viewandUpdatePSLPage = new ViewandUpdatePSLPage(driver);
+		return viewandUpdatePSLPage;
+	}
+
+
 }
