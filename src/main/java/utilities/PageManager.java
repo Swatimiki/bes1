@@ -14,6 +14,7 @@ public class PageManager {
 	private PSLManagementPage pslManagementPage;
 	private RestrictAccessToRevisionsPage AccessToRevisionsPage;
 	private ViewandUpdatePSLPage viewandUpdatePSLPage;
+	private NominatingtheRevisionToPreferredStatus NominateRevisionsPage;
 
 	public PageManager(WebDriver driver) {
 		this.driver = driver;
@@ -60,6 +61,10 @@ public class PageManager {
 		viewandUpdatePSLPage = new ViewandUpdatePSLPage(driver);
 		return viewandUpdatePSLPage;
 	}
-
+	public  NominatingtheRevisionToPreferredStatus getNominatingtheRevisionToPreferredStatus() {
+		if (NominateRevisionsPage == null)
+			NominateRevisionsPage = new NominatingtheRevisionToPreferredStatus(driver);
+		return NominateRevisionsPage;
+	}
 
 }

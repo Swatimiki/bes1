@@ -96,11 +96,11 @@ public class ViewandUpdatePSLPage extends BasePage {
 
     public void updateEPDDetails() throws InterruptedException {
         waits.waitForClickable(EPDCode);
-        enterText(EPDCode, "3");
+        enterText(EPDCode, "Test");
         Thread.sleep(1000);
         enterText(EPDDescription, "Test");
 
-        enterText(issueDateInput, "07/24/2026");
+        enterText(issueDateInput, "07/27/2026");
         Thread.sleep(2000);
         try {
             enterText(expiryDateInput, "07/30/2026");
@@ -110,19 +110,19 @@ public class ViewandUpdatePSLPage extends BasePage {
         }
         Thread.sleep(1000);
 
-        enterText(a1A3Factor, "10");
+        enterText(a1A3Factor, "20");
         Thread.sleep(1000);
         commonUtils.scrollToElement(find(a4Factor));
-        enterText(a4Factor, "20");
+        enterText(a4Factor, "30");
         Thread.sleep(1000);
 
-        enterText(a5_1Factor, "30");
+        enterText(a5_1Factor, "20");
         Thread.sleep(1000);
 
-        enterText(a5_2Factor, "10");
+        enterText(a5_2Factor, "15");
         Thread.sleep(1000);
 
-        enterText(a5_4Factor, "20");
+        enterText(a5_4Factor, "15");
 
         Thread.sleep(2000);
         System.out.println("Updated EPD details");

@@ -26,7 +26,7 @@ public class PSLManagementPage extends BasePage {
     public static final By USE_EXISTING_OPTION = By.xpath("//span[@class='dx-menu-item-text'][normalize-space()='Use existing from another baseline']");
     public static final By VIEW_PSL_OPTION = By.xpath("//span[@class='dx-menu-item-text'][normalize-space()='View Project-Specific Library']");
     public static final By DELETE_PSL_OPTION = By.xpath("//span[@class='dx-menu-item-text'][normalize-space()='Delete Project-Specific Library']");
-    public static final By POPUP_ESTIMATE_ROW = By.xpath("//div[contains(@class,'dx-overlay-content')]//tr[contains(@class,'dx-data-row')][.//*[normalize-space()='101899.15']]");
+    public static final By POPUP_ESTIMATE_ROW = By.xpath("//div[contains(@class,'dx-overlay-content')]//tr[contains(@class,'dx-data-row')][.//*[normalize-space()='101945.01']]");
     public static final By SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save' and not(@title='Save Layout')]");
     public static final By ERROR_MESSAGE_TOAST = By.xpath("//div[contains(@class, 'dx-toast-message')]");
 
@@ -50,11 +50,11 @@ public class PSLManagementPage extends BasePage {
             Thread.sleep(3000);
             waits.waitForClickable(SEARCH);
             click(SEARCH);
-            find(SEARCH).sendKeys("101866.01");
+            find(SEARCH).sendKeys("101957.01");
             System.out.println("Entered estimates");
             Thread.sleep(3000);
             WebElement PROJECTNO = driver.findElement(By.xpath(
-                    "//tr[contains(@class,'dx-data-row')]//td[@aria-colindex='3' and not(contains(@class,'dx-hidden-cell'))]//span[normalize-space()='101866.01']"));
+                    "//tr[contains(@class,'dx-data-row')]//td[@aria-colindex='3' and not(contains(@class,'dx-hidden-cell'))]//span[normalize-space()='101957.01']"));
             waits.waitForVisible(PROJECTNO);
             Actions actions = new Actions(driver);
             actions.contextClick(PROJECTNO).perform();
@@ -87,7 +87,7 @@ public class PSLManagementPage extends BasePage {
         Thread.sleep(3000);
         waits.waitForVisible(POPUP_ESTIMATE_ROW);
         click(POPUP_ESTIMATE_ROW);
-        System.out.println("Selected estimate 101899.15 from popup");
+        System.out.println("Selected estimate 101945.01 from popup");
         Thread.sleep(1000);
     }
 
