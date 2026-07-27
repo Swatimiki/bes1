@@ -34,6 +34,7 @@ public class ViewandUpdatePSLPage extends BasePage {
     public static final By a4Factor = By.xpath("//span[contains(text(),'A4 GWP')]/preceding::input[1]");
     public static final By a5_1Factor = By.xpath("//span[contains(text(),'A5.1 GWP')]/preceding::input[1]");
     public static final By a5_2Factor = By.xpath("//span[contains(text(),'A5.2 GWP')]/preceding::input[1]");
+    public static final By a5_3Factor = By.xpath("//span[contains(text(),'A5.3 GWP')]/preceding::input[1]");
     public static final By a5_4Factor = By.xpath("//span[contains(text(),'A5.4 GWP')]/preceding::input[1]");
     public static final By POPUP_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='Save']");
     public static final By UPDATED_EPD_VALUE = By.xpath("//td[contains(@class,'modified')]");
@@ -96,33 +97,49 @@ public class ViewandUpdatePSLPage extends BasePage {
 
     public void updateEPDDetails() throws InterruptedException {
         waits.waitForClickable(EPDCode);
-        enterText(EPDCode, "Test");
+        enterText(EPDCode, "5");
         Thread.sleep(1000);
-        enterText(EPDDescription, "Test");
+        enterText(EPDDescription, "Test1");
 
-        enterText(issueDateInput, "07/27/2026");
+        // Clear the existing date with keystrokes - clear() does not propagate to the datebox widget
+        WebElement issueField = find(issueDateInput);
+        issueField.click();
+        Thread.sleep(500);
+        issueField.sendKeys(org.openqa.selenium.Keys.END);
+        for (int i = 0; i < 12; i++)
+            issueField.sendKeys(org.openqa.selenium.Keys.BACK_SPACE);
+        issueField.sendKeys("07/25/2026");
+        issueField.sendKeys(org.openqa.selenium.Keys.TAB);
+        System.out.println("Entered Issue Date");
         Thread.sleep(2000);
-        try {
-            enterText(expiryDateInput, "07/30/2026");
-        } catch (org.openqa.selenium.StaleElementReferenceException e) {
-            // Form re-renders after the issue date is committed; retry with a fresh element
-            enterText(expiryDateInput, "07/30/2026");
-        }
+
+        WebElement expiryField = find(expiryDateInput);
+        expiryField.click();
+        Thread.sleep(500);
+        expiryField.sendKeys(org.openqa.selenium.Keys.END);
+        for (int i = 0; i < 12; i++)
+            expiryField.sendKeys(org.openqa.selenium.Keys.BACK_SPACE);
+        expiryField.sendKeys("07/31/2026");
+        expiryField.sendKeys(org.openqa.selenium.Keys.TAB);
+        System.out.println("Entered Expiry Date");
         Thread.sleep(1000);
 
-        enterText(a1A3Factor, "20");
+        enterText(a1A3Factor, "15");
         Thread.sleep(1000);
         commonUtils.scrollToElement(find(a4Factor));
-        enterText(a4Factor, "30");
+        enterText(a4Factor, "25");
         Thread.sleep(1000);
 
-        enterText(a5_1Factor, "20");
+        enterText(a5_1Factor, "35");
         Thread.sleep(1000);
 
-        enterText(a5_2Factor, "15");
+        enterText(a5_2Factor, "12");
         Thread.sleep(1000);
 
-        enterText(a5_4Factor, "15");
+        enterText(a5_3Factor, "18");
+        Thread.sleep(1000);
+
+        enterText(a5_4Factor, "22");
 
         Thread.sleep(2000);
         System.out.println("Updated EPD details");
@@ -159,7 +176,7 @@ public class ViewandUpdatePSLPage extends BasePage {
         Thread.sleep(2000);
         waits.waitForVisible(EPDDescription);
         String actualValue = find(EPDDescription).getAttribute("value");
-        Assert.assertEquals("EPD Description mismatch", "Test", actualValue);
+        Assert.assertEquals("EPD Description mismatch", "Test1", actualValue);
         System.out.println("Verified updated EPD details in popup");
     }
 
