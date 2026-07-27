@@ -12,7 +12,7 @@ import utilities.CommonUtils;
 
 public class ViewandUpdatePSLPage extends BasePage {
 
-    private CommonUtils commonUtils;
+    private CommonUtils commonUtils = new CommonUtils(driver);
 
     public ViewandUpdatePSLPage(WebDriver driver) {
         super(driver);
@@ -28,21 +28,19 @@ public class ViewandUpdatePSLPage extends BasePage {
     public static final By VIEW_UPDATE_BUTTON = By.xpath("//tr[@aria-rowindex='1']//div[@role='button' and @aria-label='View/Update']//span[@class='dx-button-text']");
     public static final By EPDCode = By.xpath("//span[contains(text(),'EPD Code')]/preceding::input[1]");
     public static final By EPDDescription = By.xpath("//span[contains(text(),'EPD Description')]/preceding::input[1]");
-    public static final By issueDate = By.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]/following::div[@role='button'][1]");
-    public static final By issueDateValue = By.xpath("//td[@data-value='2026/07/24']");
-    public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
-    public static final By expiryDateValue = By.xpath("//td[@data-value='2026/07/30']");
-    public static final By a1A3Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-e5ec3938-456e-5c2d-8a1c-cbcb59bc197a']");
-    public static final By a4Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-79188bd6-09ca-6cab-9cd8-54ea7c3eebc6']");
-    public static final By a5_1Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-121e1e79-735b-cd73-6742-8d7cb92ab40c']");
-    public static final By a5_2Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-7882a719-b9ac-6d9b-eb2d-d470b3288585']");
-    public static final By a5_4Factor = By.xpath("//input[@aria-labelledby='dx-texteditor-label-8f6c6577-2339-c375-e39a-609826560726']");
-    //public static final By EPD_TEXTBOX = By.xpath("//input[contains(@name,'EPD')]");
-//    public static final By POPUP_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
-//    public static final By UPDATED_EPD_VALUE = By.xpath("//td[contains(@class,'modified')]");
-//    public static final By PSL_PAGE_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
-//    public static final By EPD_POPUP_VALUE = By.xpath("//input[contains(@name,'EPD')]");
-//    public static final By CLOSE_BUTTON = By.xpath("//span[normalize-space()='Close']");
+    public static final By issueDateInput = By.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]");
+    public static final By expiryDateInput = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]");
+    public static final By a1A3Factor = By.xpath("//span[contains(text(),'A1-A3 GWP')]/preceding::input[1]");
+    public static final By a4Factor = By.xpath("//span[contains(text(),'A4 GWP')]/preceding::input[1]");
+    public static final By a5_1Factor = By.xpath("//span[contains(text(),'A5.1 GWP')]/preceding::input[1]");
+    public static final By a5_2Factor = By.xpath("//span[contains(text(),'A5.2 GWP')]/preceding::input[1]");
+    public static final By a5_4Factor = By.xpath("//span[contains(text(),'A5.4 GWP')]/preceding::input[1]");
+    public static final By POPUP_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='Save']");
+    public static final By UPDATED_EPD_VALUE = By.xpath("//td[contains(@class,'modified')]");
+    public static final By PSL_PAGE_SAVE_BUTTON = By.xpath("//div[@role='button'][@aria-label='save']");
+    public static final By EPD_POPUP_VALUE = By.xpath("//input[contains(@name,'EPD')]");
+    public static final By CLOSE_BUTTON = By.xpath("//div[contains(@class,'dx-closebutton')]/div");
+    public static final By CONFIRM_YES = By.xpath("//div[@aria-label='Yes']");
 
     public void waitForLoadingToFinish() {
         try {
@@ -76,33 +74,6 @@ public class ViewandUpdatePSLPage extends BasePage {
             click(MANAGE_REVISIONS);
             System.out.println("Clicked on Manage Revisions");
             waitForLoadingToFinish();
-            waits.waitForClickable(EPDCode);
-            enterText(EPDCode, "3");
-            Thread.sleep(1000);
-            enterText(EPDDescription, "Test");
-
-            click(issueDate);
-            click(issueDateValue);
-            Thread.sleep(2000);
-            click(expiryDate);
-            click(expiryDateValue);
-            Thread.sleep(1000);
-
-            enterText(a1A3Factor, "10");
-            Thread.sleep(1000);
-            commonUtils.scrollToElement(find(a4Factor));
-            enterText(a4Factor, "20");
-            Thread.sleep(1000);
-
-            enterText(a5_1Factor, "30");
-            Thread.sleep(1000);
-
-            enterText(a5_2Factor, "10");
-            Thread.sleep(1000);
-
-            enterText(a5_4Factor, "20");
-
-            Thread.sleep(2000);
 
         } catch (Exception e) {
             System.err.println(e.getLocalizedMessage());
@@ -124,43 +95,78 @@ public class ViewandUpdatePSLPage extends BasePage {
     }
 
     public void updateEPDDetails() throws InterruptedException {
-        waits.waitForVisible(EPD_TEXTBOX);
-        enterText(EPD_TEXTBOX, "Updated EPD");
-        find(EPD_TEXTBOX).sendKeys("Updated EPD");
+        waits.waitForClickable(EPDCode);
+        enterText(EPDCode, "3");
+        Thread.sleep(1000);
+        enterText(EPDDescription, "Test");
+
+        enterText(issueDateInput, "07/24/2026");
+        Thread.sleep(2000);
+        try {
+            enterText(expiryDateInput, "07/30/2026");
+        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+            // Form re-renders after the issue date is committed; retry with a fresh element
+            enterText(expiryDateInput, "07/30/2026");
+        }
+        Thread.sleep(1000);
+
+        enterText(a1A3Factor, "10");
+        Thread.sleep(1000);
+        commonUtils.scrollToElement(find(a4Factor));
+        enterText(a4Factor, "20");
+        Thread.sleep(1000);
+
+        enterText(a5_1Factor, "30");
+        Thread.sleep(1000);
+
+        enterText(a5_2Factor, "10");
+        Thread.sleep(1000);
+
+        enterText(a5_4Factor, "20");
+
+        Thread.sleep(2000);
         System.out.println("Updated EPD details");
+    }
+
+    public void clickPopupSaveButton() throws InterruptedException {
+        waits.waitForClickable(POPUP_SAVE_BUTTON);
+        click(POPUP_SAVE_BUTTON);
+        System.out.println("Clicked Save button in popup");
+        Thread.sleep(2000);
+    }
+    public void verifyUpdatedEPDDetailsHighlighted() {
+        waits.waitForVisible(UPDATED_EPD_VALUE);
+        Assert.assertTrue("Updated EPD details are not highlighted", find(UPDATED_EPD_VALUE).isDisplayed());
+        System.out.println("Verified updated EPD details are highlighted");
+    }
+    public void clickSaveButtonInPSLPage() throws InterruptedException {
+        waits.waitForClickable(PSL_PAGE_SAVE_BUTTON);
+        click(PSL_PAGE_SAVE_BUTTON);
+        System.out.println("Clicked Save button in PSL page");
+        Thread.sleep(2000);
+        // Confirm the 'new Unassured entry in the Dynamic Library' dialog if it appears
+        if (!driver.findElements(CONFIRM_YES).isEmpty()) {
+            click(CONFIRM_YES);
+            System.out.println("Clicked Yes on confirmation dialog");
+            Thread.sleep(2000);
+        }
+    }
+
+    public void verifyUpdatedEPDDetailsInPopup() throws InterruptedException {
+        waits.waitForClickable(VIEW_UPDATE_BUTTON);
+        click(VIEW_UPDATE_BUTTON);
+        System.out.println("Reopened View/Update popup");
+        Thread.sleep(2000);
+        waits.waitForVisible(EPDDescription);
+        String actualValue = find(EPDDescription).getAttribute("value");
+        Assert.assertEquals("EPD Description mismatch", "Test", actualValue);
+        System.out.println("Verified updated EPD details in popup");
+    }
+
+    public void clickCloseButton() throws InterruptedException {
+        waits.waitForClickable(CLOSE_BUTTON);
+        click(CLOSE_BUTTON);
+        System.out.println("Clicked Close button");
         Thread.sleep(1000);
     }
-//
-//    public void clickPopupSaveButton() throws InterruptedException {
-//        waits.waitForClickable(POPUP_SAVE_BUTTON);
-//        click(POPUP_SAVE_BUTTON);
-//        System.out.println("Clicked Save button in popup");
-//        Thread.sleep(2000);
-//    }
-//    public void verifyUpdatedEPDDetailsHighlighted() {
-//        waits.waitForVisible(UPDATED_EPD_VALUE);
-//        Assert.assertTrue("Updated EPD details are not highlighted", find(UPDATED_EPD_VALUE).isDisplayed());
-//        System.out.println("Verified updated EPD details are highlighted");
-//    }
-//    public void clickSaveButtonInPSLPage() throws InterruptedException {
-//        waits.waitForClickable(PSL_PAGE_SAVE_BUTTON);
-//        click(PSL_PAGE_SAVE_BUTTON);
-//        System.out.println("Clicked Save button in PSL page");
-//        Thread.sleep(2000);
-//    }
-//
-//    public void verifyUpdatedEPDDetailsInPopup() {
-//        waits.waitForVisible(EPD_POPUP_VALUE);
-//        String actualValue =
-//        find(EPD_POPUP_VALUE).getAttribute("value");
-//        Assert.assertEquals("Updated EPD", actualValue);
-//        System.out.println("Verified updated EPD details in popup");
-//    }
-//
-//    public void clickCloseButton() throws InterruptedException {
-//        waits.waitForClickable(CLOSE_BUTTON);
-//        click(CLOSE_BUTTON);
-//        System.out.println("Clicked Close button");
-//        Thread.sleep(1000);
-//    }
 }
