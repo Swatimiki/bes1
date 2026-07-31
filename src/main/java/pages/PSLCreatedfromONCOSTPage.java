@@ -42,10 +42,10 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		public static final By ONCOSTS = By.xpath("//span[@title='On Costs']");
 		public static final By ONCOSTSSearch = By.xpath("//input[@aria-label='Search in the tree list']");
 		public static final By HVORESULT = By.xpath("//table[contains(@class,'dx-treelist-table')]//tr[@role='row'][7]");
-		public static final By EDITBUTN = By.xpath(("(//*[@id='gridContainer']//span[@title='Edit']/button)[3]"));
+		public static final By EDITBUTN = By.xpath(("(//*[@id='gridContainer']//span[@title='Edit']/button)[2]"));
 		public static final By Scrollverical = By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scrollbar') and contains(@class,'dx-scrollbar-vertical')]");
 		public static final By PAS2080 = By.xpath("//div[@role='radio']//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']");
-		public static final By RADIOBUTTON = By.xpath("//div[@role='radio'][.//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']]//div[contains(@class,'dx-radio-value-container')]");
+		public static final By RADIOBUTTON = By.xpath("(//div[@class='dx-radiobutton-icon-dot'])[1]");
 		public static final By SELECTFILE = By.xpath("//span[contains(text(),'Select a file')]");
 		public static final By PdfUpload = By.xpath("//input[@type='file' and @class='dx-fileuploader-input']");
 		public static final By fileUpload = By.xpath("//input[@type='file' and @name='files[]']");
@@ -57,17 +57,14 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		//	public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
 		public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
 		public static final By expiryDateValue = By.xpath("//td[@data-value='2026/06/25']");
-		public static final By expandRadio = By.xpath("(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
+		//public static final By expandRadio = By.xpath("(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
 		public static final By a1A3Factor = By.xpath("//input[@id='carbA1A3Factor']");
 		public static final By a4Factor = By.xpath("//input[@id='carbA4Factor']");
 		public static final By a5_1Factor = By.xpath("//input[@id='carbA51Factor']");
 		public static final By a5_2Factor = By.xpath("//input[@id='carbA52Factor']");
-		public static final By a5_3Factor = By.xpath("//span[contains(text(),'A5.3 KgCO2e/unit')]/preceding::input[contains(@class,'dx-texteditor-input')][1]");
+		public static final By a5_3Factor = By.xpath("//div[@class='a53toggleContainer']/div[contains(@class,'dx-show-invalid-badge dx-numberbox dx-texteditor dx-editor-outlined dx-texteditor-empty dx-widget dx-texteditor-with-label')]");
 		public static final By a5_4Factor = By.xpath("//input[@id='carbA54Factor']");
 		public static final By applyButton = By.xpath("//div[@aria-label='Apply']");
-		public static final By CARBON_OVERRIDE_BOX = By.xpath("//input[@placeholder='Select carbon override notes...']");
-		public static final By CARBON_OVERRIDE_LIST_ITEM = By.xpath("//div[contains(@class,'dx-list-item')][normalize-space()='Manual Input']");
-		public static final By CARBON_OVERRIDE_SUBMIT = By.xpath("//div[@role='button' and @aria-label='Submit']");
 		public static final By container = By.xpath("(//div[@class='dx-scrollable-wrapper']//div[@role='treegrid'])[1]");
 		public CommonUtils commonUtils = new CommonUtils(driver);
 
@@ -106,21 +103,11 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				click(ONCOSTSSearch);
 				Thread.sleep(5000);
 				find(ONCOSTSSearch).sendKeys("HVO");
-				Thread.sleep(4000);
 				click(HVORESULT);
 				click(EDITBUTN);
 //			commonUtils.scrollToElement(driver.findElement(By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scroll-content')]")));
 //			commonUtils.scrollToMiddle();
-				// Wait for the edit popup radio to be interactive before selecting PAS2080
-				waits.waitForClickable(RADIOBUTTON);
-				Thread.sleep(2000);
 				click(RADIOBUTTON);
-				Thread.sleep(1000);
-				// Re-click if the first selection did not register (DevExtreme radios are timing-sensitive)
-				if (!"true".equals(driver.findElement(By.xpath("//div[@role='radio'][.//div[normalize-space()='PAS2080 A1-A5']]")).getAttribute("aria-checked"))) {
-					click(RADIOBUTTON);
-				}
-				System.out.println("Selected PAS2080 radio button");
 				click(PAS2080);
 				Thread.sleep(1000);
 //            SelectScroll();
@@ -128,10 +115,13 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 //			click(Scrollverical);
 				try {
 
-					// 'Select a file' button is disabled; send the path directly to the hidden file input
-					find(fileUpload).sendKeys("/Users/roshanpanda/Downloads/8057387_Claim_Request_Form_Blank.pdf");
-					System.out.println("Uploaded file to ONCOST EPD");
+					click(SELECTFILE);
 					Thread.sleep(5000);
+//			find(fileUpload).sendKeys("\\Kature, Nikita Nandkumar\\BES.pdf");
+					driver.findElement(By.xpath("//span[contains(text(),'Select a file')]")).sendKeys("C:\\Users\\swattrip\\Downloads\\Release Notes FAT3 R6 Contractor Submission Workflow V0.1 (Draft).pdf\"");
+					find(fileUpload).sendKeys("C:\\Users\\swattrip\\Downloads\\Release Notes FAT3 R6 Contractor Submission Workflow V0.1 (Draft).pdf\"");
+					Thread.sleep(5000);
+					click(PdfUpload);
 
 				}
 				catch (Exception e) {
@@ -144,50 +134,41 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 //		    fileUpload.sendKeys("C:\\Users\\nkature\\BES.pdf");
 //
 //		     System.out.println("File Uploaded successfully");
-		     click(EPDCODE);
-             find(EPDCODE).click();
-		    enterText(EPDCODE, "3");
-			click(EPDDESCRIPTION);
-            find(EPDDESCRIPTION).click();
-			enterText(EPDDESCRIPTION,"test");
-			click(IssueDate);
-			click(issueDateValue);
-			Thread.sleep(2000);
+//			click(EPDCODE);
+//		    find(EPDCODE).click();
+//		    enterText(EPDCODE, "3");
+//			click(EPDDESCRIPTION);
+//			find(EPDDESCRIPTION).click();
+//			enterText(EPDDESCRIPTION,"test");
+//			click(IssueDate);
+//			click(issueDateValue);
+//			Thread.sleep(2000);
 
 				click(expiryDate);
 				click(expiryDateValue);
 
 
-			click(expandRadio);
-			commonUtils.scrollToElement(driver.findElement(By.xpath("//input[@id='carbA1A3Factor']")));
-			enterText(a1A3Factor, "34");
-			Thread.sleep(1000);
-			commonUtils.scrollToElement(find(a4Factor));
-			enterText(a4Factor, "55");
-			Thread.sleep(1000);
-			enterText(a5_1Factor, "34");
-			Thread.sleep(1000);
-			enterText(a5_2Factor, "55");
-			Thread.sleep(1000);
-			commonUtils.scrollToElement(find(a5_3Factor));
-			enterText(a5_3Factor, "54");
-			Thread.sleep(1000);
-			commonUtils.scrollToElement(find(a5_4Factor));
-			enterText(a5_4Factor, "50");
-			Thread.sleep(2000);
-			click(applyButton);
-			Thread.sleep(4000);
-
-			// Carbon Override Notes popup: open the select box, pick a note, submit
-			click(CARBON_OVERRIDE_BOX);
-			System.out.println("Clicked Carbon Override Notes box");
-			Thread.sleep(2000);
-			click(CARBON_OVERRIDE_LIST_ITEM);
-			System.out.println("Selected carbon override note from list");
-			Thread.sleep(1000);
-			click(CARBON_OVERRIDE_SUBMIT);
-			System.out.println("Clicked Submit on Carbon Override Notes");
-			Thread.sleep(2000);
+//			click(expandRadio);
+//			commonUtils.scrollToElement(driver.findElement(By.xpath("//input[@id='carbA1A3Factor']")));
+//			enterText(a1A3Factor, "34");
+//			Thread.sleep(1000);
+//			commonUtils.scrollToElement(find(a4Factor));
+//			enterText(a4Factor, "55");
+//			Thread.sleep(1000);
+//			enterText(a5_1Factor, "34");
+//			Thread.sleep(1000);
+//			enterText(a5_2Factor, "55");
+//			Thread.sleep(1000);
+//	     	click(a5_3Factor);
+//	     	WebElement txtBox = driver.findElement(By.xpath("//div[@class='a53toggleContainer']/div[contains(@class,'dx-show-invalid-badge dx-numberbox dx-texteditor dx-editor-outlined dx-texteditor-empty dx-widget dx-texteditor-with-label')]"));
+//	     		txtBox.clear();
+//	     		txtBox.sendKeys("100");
+//	     	enterText(a5_3Factor, "54");
+//			driver.findElement(By.xpath("//div[@class='a53toggleContainer']/div[contains(@class,'dx-show-invalid-badge dx-numberbox dx-texteditor dx-editor-outlined dx-texteditor-empty dx-widget dx-texteditor-with-label')]")).sendKeys("56");
+//			Thread.sleep(1000);
+//			enterText(a5_4Factor, "50");
+//			Thread.sleep(2000);
+//			click(applyButton);
 
 
 			} catch (Exception e) {
