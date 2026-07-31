@@ -1,12 +1,10 @@
 package hooks;
 
-import java.io.File;
 import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeDriverService;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.cucumber.java.After;
@@ -23,25 +21,16 @@ public class Hooks {
 	@Before
 	public void setup() {
 
-		String driverPath = "C:\\Users\\swattrip\\Downloads\\edgedriver_win64\\msedgedriver.exe";
-		File driverFile = new File(driverPath);
-
-		if (!driverFile.exists())
-			throw new RuntimeException("msedgedriver.exe not found at: " + driverPath);
-
-		System.setProperty("webdriver.edge.driver", driverPath);
-
-		EdgeOptions options = new EdgeOptions();
+		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--remote-allow-origins=*");
 		options.addArguments("--start-maximized");
 		options.addArguments("--disable-extensions");
 		options.addArguments("--disable-infobars");
 		//options.addArguments("--headless");
 
-		EdgeDriverService service = new EdgeDriverService.Builder().usingDriverExecutable(driverFile).build();
-
 		try {
-			WebDriver driver = new EdgeDriver(service, options);
+			// Selenium Manager (built into Selenium 4.21) resolves chromedriver automatically
+			WebDriver driver = new ChromeDriver(options);
 			driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
@@ -50,7 +39,7 @@ public class Hooks {
 			context.setPageManager(null);
 
 		} catch (Exception e) {
-			System.err.println("Failed to launch Edge. Error: " + e.getMessage());
+			System.err.println("Failed to launch Chrome. Error: " + e.getMessage());
 			throw e;
 		}
 	}
