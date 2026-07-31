@@ -4,7 +4,7 @@ import hooks.Hooks;
 import io.cucumber.java.en.Then;
 import utilities.TestContext;
 
-public class PSLSteps {
+public class ValidationDeletePSL {
 
     private TestContext context = Hooks.getContext();
 

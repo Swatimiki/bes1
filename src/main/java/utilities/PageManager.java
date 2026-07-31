@@ -11,7 +11,7 @@ public class PageManager {
 	private EstimateRevisionsManagementPage estimatePage;
 	private CommonUtils commonUtils;
 	private PSLCreatedfromONCOSTPage psloncostPage;
-	private PSLManagementPage pslManagementPage;
+	private ValidationDeletePSL pslManagementPage;
 	private RestrictAccessToRevisionsPage AccessToRevisionsPage;
 	private ViewandUpdatePSLPage viewandUpdatePSLPage;
 	private NominatingtheRevisionToPreferredStatus NominateRevisionsPage;
@@ -50,9 +50,9 @@ public class PageManager {
 		return AccessToRevisionsPage;
 	}
 
-	public PSLManagementPage getPSLManagementPage() {
+	public ValidationDeletePSL getPSLManagementPage() {
 		if (pslManagementPage == null)
-			pslManagementPage = new PSLManagementPage(driver);
+			pslManagementPage = new ValidationDeletePSL(driver);
 		return pslManagementPage;
 	}
 
