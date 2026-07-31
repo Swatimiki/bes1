@@ -127,7 +127,7 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				try {
 
 					// 'Select a file' button is disabled; send the path directly to the hidden file input
-					find(fileUpload).sendKeys("/Users/roshanpanda/Downloads/8057387_Claim_Request_Form_Blank.pdf");
+					find(fileUpload).sendKeys("/Users/roshanpanda/Downloads/selenium_scroll_and_edit.pdf");
 					System.out.println("Uploaded file to ONCOST EPD");
 					Thread.sleep(5000);
 
@@ -168,6 +168,10 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				commonUtils.scrollToElement(find(a5_4Factor));
 				enterText(a5_4Factor, "50");
 				Thread.sleep(2000);
+				// TEMP DEBUG: which file is attached right before Apply commits it
+				for (WebElement f : driver.findElements(By.xpath("//div[contains(@class,'dx-fileuploader-file-name')]"))) {
+					System.out.println("DEBUG file attached at Apply: '" + f.getText() + "'");
+				}
 				click(applyButton);
 				Thread.sleep(4000);
 
