@@ -126,7 +126,7 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 
 				try {
 
-					// 'Select a file' button is disabled; send the path directly to the hidden file input
+					// 'Select a file' opens a native OS dialog Selenium can't drive; send the path directly to the input
 					find(fileUpload).sendKeys("/Users/roshanpanda/Downloads/selenium_scroll_and_edit.pdf");
 					System.out.println("Uploaded file to ONCOST EPD");
 					Thread.sleep(5000);
