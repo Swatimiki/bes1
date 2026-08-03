@@ -1,6 +1,7 @@
 package pages;
 
 import java.io.File;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -24,26 +25,26 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		public static final By ESTIMATES = By.xpath("//div[@aria-label='Estimates']//span[@class='dx-button-text']");
 		public static final By SEARCH = By.xpath("//input[@placeholder='Search']");
 		public static final By ManageRevisions = By.xpath("//span[normalize-space()='Manage Revisions']");
-		public static final By AddRevision = By.xpath("//span[normalize-space()='Add Revision']");
-		public static final By SUBMIT = By.xpath("//span[normalize-space()='Submit']");
+	//	public static final By AddRevision = By.xpath("//span[normalize-space()='Add Revision']");
+	//	public static final By SUBMIT = By.xpath("//span[normalize-space()='Submit']");
 		public static final By CHEVRON = By.xpath("//i[@class='fa-solid fa-chevron-up']");
-		public static final By NewRevisions = By.xpath("//span[normalize-space()='Estimate Number']");
+	//	public static final By NewRevisions = By.xpath("//span[normalize-space()='Estimate Number']");
 //	public static final By NEWREVISION = By.xpath("//tr[contains(@class,'dx-data-row')]//td[text()='Automation_Project2-CT1']");
 		public static final By allrows = By.xpath("//tr[contains(@class,'dx-data-row')]");
-		public static final By SECTION = By.xpath("//label[@title='Sewerage Non Infrastructure']");
+	//	public static final By SECTION = By.xpath("//label[@title='Sewerage Non Infrastructure']");
 //	public static final By CHEVRON = By.xpath("//td[@title='Meenal - Markup Testing - Carbon UAT']");
 //	public static final By SECTION = By.xpath("//label[@title='Sewerage Non Infrastructure']");
 //	public static final By EXPANDALL = By.xpath("//div[@aria-label='Expand All']/div");
 
-		public static final By Collapse = By.xpath("//button[@aria-label='Collapse']");
-		public static final By PSLTAB = By.xpath("//span[normalize-space()='Project-Specific Library']");
-		public static final By ViewPSLoption = By.xpath("//span[normalize-space()='View Project-Specific Library']");
+//		public static final By Collapse = By.xpath("//button[@aria-label='Collapse']");
+//		public static final By PSLTAB = By.xpath("//span[normalize-space()='Project-Specific Library']");
+//		public static final By ViewPSLoption = By.xpath("//span[normalize-space()='View Project-Specific Library']");
 		public static final By THREEDOTS = By.xpath("//div[@id='section-context-menu-button']");
 		public static final By ONCOSTS = By.xpath("//span[@title='On Costs']");
 		public static final By ONCOSTSSearch = By.xpath("//input[@aria-label='Search in the tree list']");
 		public static final By HVORESULT = By.xpath("//table[contains(@class,'dx-treelist-table')]//tr[@role='row'][7]");
 		public static final By EDITBUTN = By.xpath(("(//*[@id='gridContainer']//span[@title='Edit']/button)[3]"));
-		public static final By Scrollverical = By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scrollbar') and contains(@class,'dx-scrollbar-vertical')]");
+//		public static final By Scrollverical = By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scrollbar') and contains(@class,'dx-scrollbar-vertical')]");
 		public static final By PAS2080 = By.xpath("//div[@role='radio']//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']");
 		public static final By RADIOBUTTON = By.xpath("//div[@role='radio'][.//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']]//div[contains(@class,'dx-radio-value-container')]");
 		public static final By SELECTFILE = By.xpath("//span[contains(text(),'Select a file')]");
@@ -52,11 +53,10 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		public static final By EPDCODE = By.xpath("//span[contains(text(),'EPD Code')]/preceding::input[1]");
 		public static final By EPDDESCRIPTION = By.xpath("//span[contains(text(),'EPD Description')]/preceding::input[1]");
 		public static final By IssueDate = By.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]/following::div[@role='button'][1]");
-		public static final By issueDateValue = By.xpath("//td[@data-value='2026/06/20']");
+		public static final By issueDateValue = By.xpath("//td[@data-value='2026/06/23']");
 
-		//	public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
-		public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]/following::div[@role='button'][1]");
-		public static final By expiryDateValue = By.xpath("//td[@data-value='2026/06/25']");
+		public static final By expiryDate = By.xpath("//span[contains(text(),'Expiry Date')]/preceding::input[1]");
+	//	public static final By expiryDateValue = By.xpath("//td[@data-value='2026/06/30']");
 		public static final By expandRadio = By.xpath("(//div[@role='radiogroup']//div[@role='radio']/div)[1]/following::div[@class='dx-accordion-wrapper'][1]");
 		public static final By a1A3Factor = By.xpath("//input[@id='carbA1A3Factor']");
 		public static final By a4Factor = By.xpath("//input[@id='carbA4Factor']");
@@ -69,6 +69,7 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		public static final By CARBON_OVERRIDE_BOX = By.xpath("//input[@placeholder='Select carbon override notes...']");
 		public static final By CARBON_OVERRIDE_LIST_ITEM = By.xpath("//div[contains(@class,'dx-list-item')][normalize-space()='Manual Input']");
 		public static final By CARBON_OVERRIDE_SUBMIT = By.xpath("//div[@role='button' and @aria-label='Submit']");
+		public static final By CONFIRM_YES = By.xpath("//div[contains(@class,'dx-button')][.//span[@class='dx-button-text' and normalize-space()='Yes']]");
 		public CommonUtils commonUtils = new CommonUtils(driver);
 
 		public void psloncost() throws InterruptedException {
@@ -126,7 +127,6 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 
 				try {
 
-					// 'Select a file' opens a native OS dialog Selenium can't drive; send the path directly to the input
 					find(fileUpload).sendKeys("/Users/roshanpanda/Downloads/selenium_scroll_and_edit.pdf");
 					System.out.println("Uploaded file to ONCOST EPD");
 					Thread.sleep(5000);
@@ -148,8 +148,18 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				click(issueDateValue);
 				Thread.sleep(2000);
 
-				click(expiryDate);
-				click(expiryDateValue);
+				// Expiry must be typed into its own input - there are multiple identical
+				// //td[@data-value] cells, so clicking one lands on the Issue Date calendar
+				WebElement expiryDateValue = find(expiryDate);
+				expiryDateValue.click();
+				Thread.sleep(500);
+				expiryDateValue.sendKeys(Keys.END);
+				for (int i = 0; i < 12; i++)
+					expiryDateValue.sendKeys(Keys.BACK_SPACE);
+				expiryDateValue.sendKeys("06/30/2026");
+				expiryDateValue.sendKeys(Keys.TAB);
+				System.out.println("Entered Expiry Date");
+				Thread.sleep(1000);
 
 				click(expandRadio);
 				commonUtils.scrollToElement(driver.findElement(By.xpath("//input[@id='carbA1A3Factor']")));
@@ -168,12 +178,16 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				commonUtils.scrollToElement(find(a5_4Factor));
 				enterText(a5_4Factor, "50");
 				Thread.sleep(2000);
-				// TEMP DEBUG: which file is attached right before Apply commits it
-				for (WebElement f : driver.findElements(By.xpath("//div[contains(@class,'dx-fileuploader-file-name')]"))) {
-					System.out.println("DEBUG file attached at Apply: '" + f.getText() + "'");
-				}
 				click(applyButton);
 				Thread.sleep(4000);
+
+				// If the resource already has an EPD, confirm the 'Replace existing EPD' dialog
+				List<WebElement> yesBtn = driver.findElements(By.xpath("//div[@aria-label='Yes'] | //div[@role='button'][normalize-space()='Yes'] | //button[normalize-space()='Yes'] | //span[normalize-space()='Yes']/ancestor::div[@role='button'][1]"));
+				if (!yesBtn.isEmpty()) {
+					yesBtn.get(0).click();
+					System.out.println("Clicked Yes on 'resource already has an EPD' confirmation");
+					Thread.sleep(4000);
+				}
 
 				// Carbon Override Notes popup: open the select box, pick a note, submit
 				click(CARBON_OVERRIDE_BOX);
@@ -184,6 +198,11 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				Thread.sleep(1000);
 				click(CARBON_OVERRIDE_SUBMIT);
 				System.out.println("Clicked Submit on Carbon Override Notes");
+				Thread.sleep(2000);
+
+				// Confirmation pop-up: Yes replaces the existing EPD and runs recalculation in the BOQ
+				click(CONFIRM_YES);
+				System.out.println("Clicked Yes on confirmation dialog");
 				Thread.sleep(2000);
 
 
