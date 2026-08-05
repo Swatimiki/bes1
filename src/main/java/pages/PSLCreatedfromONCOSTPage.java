@@ -3,6 +3,7 @@ package pages;
 import java.io.File;
 import java.util.List;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -39,6 +40,7 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 //		public static final By Collapse = By.xpath("//button[@aria-label='Collapse']");
 //		public static final By PSLTAB = By.xpath("//span[normalize-space()='Project-Specific Library']");
 //		public static final By ViewPSLoption = By.xpath("//span[normalize-space()='View Project-Specific Library']");
+//        public static final By LastRevision= By.xpath("(//tr[contains(@class, 'dx-data-row')])[last()]//td[contains(@class, 'dx-command-edit')]//a");
 		public static final By THREEDOTS = By.xpath("//div[@id='section-context-menu-button']");
 		public static final By ONCOSTS = By.xpath("//span[@title='On Costs']");
 		public static final By ONCOSTSSearch = By.xpath("//input[@aria-label='Search in the tree list']");
@@ -70,6 +72,8 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		public static final By CARBON_OVERRIDE_LIST_ITEM = By.xpath("//div[contains(@class,'dx-list-item')][normalize-space()='Manual Input']");
 		public static final By CARBON_OVERRIDE_SUBMIT = By.xpath("//div[@role='button' and @aria-label='Submit']");
 		public static final By CONFIRM_YES = By.xpath("//div[contains(@class,'dx-button')][.//span[@class='dx-button-text' and normalize-space()='Yes']]");
+		public static final By Notes = By.xpath("//tr[.//td[normalize-space()='87']]//i[contains(@class,'fa-book')]");
+		public static final String SELECTED_NOTE = "SW Override,Manual Input";
 		public CommonUtils commonUtils = new CommonUtils(driver);
 
 		public void psloncost() throws InterruptedException {
@@ -92,6 +96,7 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				click(ManageRevisions);
 //			click(AddRevision);
 //			click(SUBMIT);
+//				click(LastRevision);
 				click(CHEVRON);
 				Thread.sleep(2000);
 				selectProject();
@@ -127,7 +132,7 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 
 				try {
 
-					find(fileUpload).sendKeys("/Users/roshanpanda/Downloads/selenium_scroll_and_edit.pdf");
+					find(fileUpload).sendKeys("C:\\Users\\swattrip\\Downloads\\Release_Notes_FAT3_R6_Contractor_Submission_Workflow.pdf");
 					System.out.println("Uploaded file to ONCOST EPD");
 					Thread.sleep(5000);
 
@@ -140,10 +145,10 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 
 			     click(EPDCODE);
 	             find(EPDCODE).click();
-			    enterText(EPDCODE, "3");
+			    enterText(EPDCODE, "123");
 				click(EPDDESCRIPTION);
 	            find(EPDDESCRIPTION).click();
-				enterText(EPDDESCRIPTION,"test");
+				enterText(EPDDESCRIPTION,"test123");
 				click(IssueDate);
 				click(issueDateValue);
 				Thread.sleep(2000);
@@ -205,12 +210,23 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				System.out.println("Clicked Yes on confirmation dialog");
 				Thread.sleep(2000);
 
-
 			} catch (Exception e) {
 
 				System.err.println(e.getLocalizedMessage());
 
 			}
+
+			waits.waitForClickable(Notes);
+			click(Notes);
+			System.out.println("Clicked Notes Icon");
+			By notespan = By.xpath("//span[contains(@title, '" + SELECTED_NOTE + "')]");
+			waits.waitForVisible(notespan);
+			String expectedNotes = "SW Override,Manual Input";
+			String actualNotes = find(notespan).getAttribute("title");
+			System.out.println("Expected Notes:" + expectedNotes);
+			System.out.println("Actual Notes:" + actualNotes);
+			Assert.assertEquals("Notes pop-up mismatch", expectedNotes, actualNotes);
+			System.out.println("Verified Override Notes pop-up matches the selected notes");
 
 		}
 
@@ -246,4 +262,6 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 
 		}
 
+
 	}
+

@@ -61,7 +61,7 @@ public class Hooks {
 		if (context.getDriver() != null)
 			//context.getDriver().quit();
 
-		context.setDriver(null);
+			context.setDriver(null);
 		context.setWait(null);
 		context.setPageManager(null);
 	}

@@ -50,11 +50,11 @@ public class ValidationDeletePSL extends BasePage {
             Thread.sleep(3000);
             waits.waitForClickable(SEARCH);
             click(SEARCH);
-            find(SEARCH).sendKeys("101953.01");
+            find(SEARCH).sendKeys("101959.01");
             System.out.println("Entered estimates");
             Thread.sleep(3000);
             WebElement PROJECTNO = driver.findElement(By.xpath(
-                    "//tr[contains(@class,'dx-data-row')]//td[@aria-colindex='3' and not(contains(@class,'dx-hidden-cell'))]//span[normalize-space()='101953.01']"));
+                    "//tr[contains(@class,'dx-data-row')]//td[@aria-colindex='3' and not(contains(@class,'dx-hidden-cell'))]//span[normalize-space()='101959.01']"));
             waits.waitForVisible(PROJECTNO);
             Actions actions = new Actions(driver);
             actions.contextClick(PROJECTNO).perform();
