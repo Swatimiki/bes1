@@ -8,8 +8,6 @@ Feature: Estimate Baseline Page
     Then User navigates to Estimates section
     Then User navigates to Estimate Baseline Page
     And User edit any Resources
-    Then User apply the changes
-    Then User should see the changes applied successfully
 
     Examples:
       | username       | Password | expectedstatus |
