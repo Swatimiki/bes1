@@ -12,12 +12,12 @@ public class BaselineSteps1 {
     @Then("User navigates to Estimate Baseline Page")
     public void userNavigatesToEstimateBaselinePage() throws InterruptedException  {
         // Write code here that turns the phrase above into concrete actions
-        context.getPageManager().getEstimateRevisionsManagementPage().estimatebaseline();
+        context.getPageManager().getBaselinePage().estimatebaseline();
     }
 
     @And("User edit any Resources")
     public void userEditAnyResources() throws InterruptedException {
-        context.getPageManager().getEstimateRevisionsManagementPage().editResource();
+        context.getPageManager().getBaselinePage().editResource();
     }
 
 

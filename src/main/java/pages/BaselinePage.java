@@ -21,7 +21,7 @@ public class BaselinePage extends BasePage {
     public static final By ESTIMATES = By.xpath("//div[@aria-label='Estimates']//span[@class='dx-button-text']");
     public static final By SEARCH = By.xpath("//input[@placeholder='Search']");
     public static final By VIEWESTIMATE = By.xpath("//span[text()='View Estimate Overview']");
-    public static final By SECTION = By.xpath("//label[@title='Water Non Infrastructure']");
+    public static final By SECTION = By.xpath("//td[not(contains(@class,'dx-hidden-cell')) and normalize-space()='Water Non Infrastructure']");
     public static final By RECALCULATE = By.xpath("//div[@title='Recalculate']");
     public static final By YES = By.xpath("//div[@aria-label='Yes']");
     public static final By APPLYSTANDARD = By.xpath("//div[@aria-label='Apply Standard Recalculation']");
@@ -29,7 +29,9 @@ public class BaselinePage extends BasePage {
     public static final By ONCOSTS = By.xpath("//span[@title='On Costs']");
     public static final By Recalculate = By.xpath("//div[@class='dx-button-content']//i[@class='dx-icon fas fa-calculator']");
     public static final By EXPANDALL = By.xpath("//div[@aria-label='Expand All']/div");
-    public static final By ResourceEditButton = By.xpath("//tr[.//td[normalize-space()='16']]//i[contains(@class,'dx-icon-edit')]");
+    public static final By ResourceEditButton = By.xpath("//tr[@aria-rowindex='16']//td[not(contains(@class,'dx-hidden-cell'))]//i[contains(@class,'dx-icon-edit')]");
+    public static final By PAS2080 = By.xpath("//div[@role='radio']//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']");
+    public static final By radioButton = By.xpath("(//div[@role='radiogroup']//div[@role='radio']/div)[1]");
     public static final By EPDCODE = By.xpath("//span[contains(text(),'EPD Code')]/preceding::input[1]");
     public static final By EPDDESCRIPTION = By.xpath("//span[contains(text(),'EPD Description')]/preceding::input[1]");
     public static final By IssueDate = By.xpath("//span[contains(text(),'Issue Date')]/preceding::input[1]/following::div[@role='button'][1]");
@@ -67,11 +69,11 @@ public class BaselinePage extends BasePage {
             click(VIEWESTIMATE);
             // actions.sendKeys(Keys.ARROW_DOWN).perform();
             // actions.sendKeys(Keys.ENTER).perform();
+            waits.waitForClickable(RECALCULATE);
             click(RECALCULATE);
-            Thread.sleep(3000);
+            waits.waitForClickable(YES);
             click(YES);
-            Thread.sleep(2000);
-            click(APPLYSTANDARD);
+            // Recalculation runs directly after Yes (no 'Apply Standard' step for this estimate)
             Thread.sleep(60000);
             System.err.println("Baseline recalculation Done");
             waits.waitForVisible(THREEDOTS);
@@ -82,8 +84,7 @@ public class BaselinePage extends BasePage {
             click(Recalculate);
             Thread.sleep(1000);
             click(YES);
-            Thread.sleep(2000);
-            click(APPLYSTANDARD);
+            // Recalculation runs directly after Yes (no 'Apply Standard' step for this estimate)
             Thread.sleep(80000);
             System.err.println("OnCosts recalculation Done");
             // waits.waitForVisible(COMPLETE);
@@ -106,31 +107,68 @@ public class BaselinePage extends BasePage {
 
     public void editResource() throws InterruptedException {
 
+        // After recalculation, open the section, then expand all to reveal its resources
+        waits.waitForVisible(SECTION);
+        click(SECTION);
+        Thread.sleep(2000);
         waits.waitForClickable(EXPANDALL);
         click(EXPANDALL);
+        Thread.sleep(4000);
+        // The edit icon is revealed on row hover, so hover line 16 first, then click it
+        waits.waitForClickable(RADIOBUTTON);
         Thread.sleep(2000);
-        waits.waitForClickable(ResourceEditButton);
-        click(ResourceEditButton);
-        Thread.sleep(2000);
+        click(RADIOBUTTON);
+        Thread.sleep(1000);
+        // Re-click if the first selection did not register (DevExtreme radios are timing-sensitive)
+        if (!"true".equals(driver.findElement(By.xpath("//div[@role='radio'][.//div[normalize-space()='PAS2080 A1-A5']]")).getAttribute("aria-checked"))) {
+            click(RADIOBUTTON);
+        }
+        System.out.println("Selected PAS2080 radio button");
+        click(PAS2080);
+        Thread.sleep(1000);
+//        WebElement row16 = driver.findElement(By.xpath("//tr[@aria-rowindex='16' and not(.//td[contains(@class,'dx-hidden-cell')])]"));
+//        new Actions(driver).moveToElement(row16).perform();
+//        Thread.sleep(1000);
+//        click(ResourceEditButton);
+//        Thread.sleep(2000);
+//        waits.waitForClickable(radioButton);
+//        click(radioButton);
+//        Thread.sleep(1000);
         waits.waitForVisible(EPDCODE);
         enterText(EPDCODE, "Test");
         enterText(EPDDESCRIPTION, "EPD Test");
         click(IssueDate);
         Thread.sleep(1000);
         click(issueDateValue);
-        click(expiryDate);
+        WebElement expiryDateValue = find(expiryDate);
+        expiryDateValue.click();
+        Thread.sleep(500);
+        expiryDateValue.sendKeys(Keys.END);
+        for (int i = 0; i < 12; i++)
+            expiryDateValue.sendKeys(Keys.BACK_SPACE);
+        expiryDateValue.sendKeys("06/30/2026");
+        expiryDateValue.sendKeys(Keys.TAB);
+        System.out.println("Entered Expiry Date");
         Thread.sleep(1000);
-        click(expiryDateValue);
-        enterText(a1A3Factor, "10");
-        enterText(a4Factor, "20");
-        enterText(a5_1Factor, "30");
-        enterText(a5_2Factor, "10");
-        enterText(a5_3Factor, "20");
-        enterText(a5_4Factor, "30");
-
-        waits.waitForClickable(applyButton);
-        click(applyButton);
+        click(expandRadio);
+        commonUtils.scrollToElement(driver.findElement(By.xpath("//input[@id='carbA1A3Factor']")));
+        enterText(a1A3Factor, "34");
+        Thread.sleep(1000);
+        commonUtils.scrollToElement(find(a4Factor));
+        enterText(a4Factor, "55");
+        Thread.sleep(1000);
+        enterText(a5_1Factor, "34");
+        Thread.sleep(1000);
+        enterText(a5_2Factor, "55");
+        Thread.sleep(1000);
+        commonUtils.scrollToElement(find(a5_3Factor));
+        enterText(a5_3Factor, "54");
+        Thread.sleep(1000);
+        commonUtils.scrollToElement(find(a5_4Factor));
+        enterText(a5_4Factor, "50");
         Thread.sleep(2000);
+        click(applyButton);
+        Thread.sleep(4000);
 
         waits.waitForVisible(SUCCESS_TOAST_MESSAGE);
         String actualMessage = find(SUCCESS_TOAST_MESSAGE).getText().trim();
