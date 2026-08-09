@@ -44,8 +44,8 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 		public static final By THREEDOTS = By.xpath("//div[@id='section-context-menu-button']");
 		public static final By ONCOSTS = By.xpath("//span[@title='On Costs']");
 		public static final By ONCOSTSSearch = By.xpath("//input[@aria-label='Search in the tree list']");
-		public static final By HVORESULT = By.xpath("//table[contains(@class,'dx-treelist-table')]//tr[@role='row'][7]");
-		public static final By EDITBUTN = By.xpath(("(//*[@id='gridContainer']//span[@title='Edit']/button)[3]"));
+		public static final By HVORESULT = By.xpath("//tr[contains(@class,'dx-data-row')][.//td[not(contains(@class,'dx-hidden-cell')) and normalize-space()='87']]");
+		public static final By EDITBUTN = By.xpath("//tr[contains(@class,'dx-data-row')][.//td[not(contains(@class,'dx-hidden-cell')) and normalize-space()='87']]//span[@title='Edit']/button");
 //		public static final By Scrollverical = By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scrollbar') and contains(@class,'dx-scrollbar-vertical')]");
 		public static final By PAS2080 = By.xpath("//div[@role='radio']//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']");
 		public static final By RADIOBUTTON = By.xpath("//div[@role='radio'][.//div[contains(@class,'dx-accordion-item-title-caption') and normalize-space()='PAS2080 A1-A5']]//div[contains(@class,'dx-radio-value-container')]");
@@ -108,12 +108,31 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 				click(THREEDOTS);
 				waits.waitForVisible(ONCOSTS);
 				click(ONCOSTS);
+				// The On Costs grid shows "Loading..." and takes time to populate; wait for the
+				// data rows to render before searching, otherwise the search returns "No data"
 				Thread.sleep(5000);
+				// Only the On Costs popup's own grid counts - scope to the popup that holds the search box,
+				// not the Sections grid behind it, so we truly wait for the popup data to load before searching
+				By onCostRow = By.xpath("//div[contains(@class,'dx-overlay-content')][.//input[@aria-label='Search in the tree list']]//tr[contains(@class,'dx-data-row')]");
+				for (int i = 0; i < 40; i++) {
+					if (!driver.findElements(onCostRow).isEmpty())
+						break;
+					Thread.sleep(3000);
+				}
+				Thread.sleep(2000);
+				// Data is loaded, now search for HVO
+				waits.waitForClickable(ONCOSTSSearch);
 				click(ONCOSTSSearch);
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 				find(ONCOSTSSearch).sendKeys("HVO");
-				Thread.sleep(4000);
-				click(HVORESULT);
+				Thread.sleep(3000);
+				// The search re-filters and reloads; wait for the load panel to clear
+				waits.waitForInvisibility(By.xpath("//div[contains(@class,'dx-loadpanel')]"));
+				Thread.sleep(2000);
+				// Wait for line 87 (CT_HVO Powered Cabins) to render, hover it so the edit icon shows, then click it
+				waits.waitForVisible(HVORESULT);
+				new Actions(driver).moveToElement(find(HVORESULT)).perform();
+				Thread.sleep(1000);
 				click(EDITBUTN);
 //			commonUtils.scrollToElement(driver.findElement(By.xpath("//div[contains(@class,'dx-popup-content')]//div[contains(@class,'dx-scrollable-scroll-content')]")));
 //			commonUtils.scrollToMiddle();
@@ -219,8 +238,9 @@ public class PSLCreatedfromONCOSTPage extends BasePage {
 			waits.waitForClickable(Notes);
 			click(Notes);
 			System.out.println("Clicked Notes Icon");
+			Thread.sleep(2000);
 			By notespan = By.xpath("//span[contains(@title, '" + SELECTED_NOTE + "')]");
-			waits.waitForVisible(notespan);
+			waits.waitForPresence(notespan);
 			String expectedNotes = "SW Override,Manual Input";
 			String actualNotes = find(notespan).getAttribute("title");
 			System.out.println("Expected Notes:" + expectedNotes);
